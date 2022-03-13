@@ -9,14 +9,16 @@ url='http://www.gnu.org/software/gdb/'
 license=(GPL3)
 depends=(xz ncurses expat python guile gdb-common=$pkgver)
 options=(!emptydirs)
-source=(https://ftp.gnu.org/gnu/gdb/gdb-11.2.tar.xz{,.sig})
+source=(https://ftp.gnu.org/gnu/gdb/gdb-11.2.tar.xz{,.sig} opcodes.patch)
 sha256sums=('1497c36a71881b8671a9a84a0ee40faab788ca30d7ba19d8463c3cc787152e32'
+            'SKIP'
             'SKIP')
 validpgpkeys=('F40ADB902B24264AA42E50BF92EDB04BFF325CF3') # Joel Brobecker <brobecker@adacore.com>
 
 prepare() {
   cd gdb-$pkgver
   sed -i "/ac_cpp=/s/\$CPPFLAGS/\$CPPFLAGS -O2/" libiberty/configure
+  patch -p1 < ../opcodes.patch
 }
 
 build() {
